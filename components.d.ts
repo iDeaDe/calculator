@@ -6,9 +6,6 @@ declare module 'vue' {
   export interface GlobalComponents {
     AddItem: typeof import('./src/components/windows/AddItem.vue')['default']
     Checkbox: typeof import('./src/components/elements/Checkbox.vue')['default']
-    ElContainer: typeof import('element-plus/es')['ElContainer']
-    ElHeader: typeof import('element-plus/es')['ElHeader']
-    ElMain: typeof import('element-plus/es')['ElMain']
     Header: typeof import('./src/components/Header.vue')['default']
     Input: typeof import('./src/components/elements/Input.vue')['default']
     Main: typeof import('./src/components/Main.vue')['default']
