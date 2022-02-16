@@ -1,0 +1,27 @@
+
+.datepicker__menu .dp__action_row {
+    --dp-background-color: var(--mainBackground);
+}
+
+.datepicker__menu  .dp__selection_preview {
+    width: 40%;
+}
+
+.datepicker__menu .dp__action_buttons {
+    width: 60%;
+    display: flex;
+}
+
+.datepicker__menu .dp__action_buttons .dp__action {
+    cursor: pointer;
+    background-color: var(--mainButtonColor);
+    color: white;
+    font-size: 14px;
+    transition: ease-in-out .1s;
+    border-radius: 4px;
+}
+
+.datepicker__menu .dp__action_buttons .dp__action:nth-child(2) {
+    margin-left: 5px;
+}
+

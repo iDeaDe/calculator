@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
+
+@import './elements/input.css';
+@import './elements/button.css';
+@import './elements/datepicker.css';
+
+:root {
+    --mainBackground: #2c3e50;
+    --mainBackgroundTransparent: rgba(44, 62, 80, .8);
+    --mainBorderColor: #207583;
+
+    --mainButtonColor: #209783;
+}
+
+*,
+html,
+body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    padding: 0;
+    margin: 0;
+    font-size: 14px;
+    font-family: 'Open Sans', sans-serif;
+    color: ghostwhite;
+    background-color: var(--mainBackground);
+    user-select: none;
+    overflow-x: hidden;
+}

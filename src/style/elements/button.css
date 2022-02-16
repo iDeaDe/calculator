@@ -1,0 +1,16 @@
+.button {
+    cursor: pointer;
+    background-color: var(--mainButtonColor);
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 7px 15px;
+    transition: ease-in-out .1s;
+    border: none;
+    border-radius: 4px;
+    outline: none;
+}
+
+.button:active {
+    background-color: #207583;
+}
