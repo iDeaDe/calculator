@@ -8,6 +8,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "date-fns": "^2.28.0",
     "vue": "^3.2.25",
     "vue3-date-time-picker": "^2.6.0"
   },

@@ -5,7 +5,7 @@
         <div class="income-item" v-for="(item, i) in incomeItems" :key="i">
           <label class="income-item__field">
             <span>Позиция:</span>
-            <select class="input" v-model="item.positionId" required>
+            <select class="input" v-model="item.positionId" :disabled="positions.length === 0" required>
               <option value="" disabled selected hidden>Выберите позицию</option>
               <option v-for="position of positions" :key="position.id" :value="position.id">
                 {{ position.name }} ({{ position.cost }} за {{ position.unit }})
@@ -21,14 +21,14 @@
             <Datepicker dark format="dd.MM.yyyy"
                 :model-value="item.date"
                 :start-date="(new Date())"
-                :clearable="false"
                 :hide-input-icon="true"
                 :enable-time-picker="false"
                 :month-change-on-scroll="false"
                 :input-class-name="'input'"
                 :menu-class-name="'datepicker__menu'"
                 :cancel-text="'Отмена'"
-                :select-text="'Выбрать'" />
+                :select-text="'Выбрать'"
+                :clearable="false" />
           </label>
         </div>
       </form>
@@ -113,9 +113,19 @@ footer button {
   margin: 0 5px;
 }
 
-.income-item__field {
-  display: inline-block;
+.add-income__form {
+  box-sizing: border-box;
+}
+
+.income-item {
   margin: 10px;
+  width: calc(100% - 20px);
+  display: grid;
+  grid-template-columns: 3fr 3fr 3fr;
+  gap: 4px;
+}
+
+.income-item__field {
 }
 
 .income-item__field span {

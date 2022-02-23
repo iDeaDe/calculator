@@ -1,5 +1,5 @@
 <template>
-  <div class="modal-container" v-if="currentModal !== ''" v-on:keyup.esc="triggerModal()"
+  <div class="modal-container" v-if="currentModal !== ''" v-on:keydown.esc="triggerModal()"
        v-on:click.self="triggerModal()">
     <Positions class="modal"
                v-on:add-position="addPosition"
