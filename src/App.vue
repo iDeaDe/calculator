@@ -100,6 +100,7 @@ export default defineComponent({
       this.storage.saveData();
     },
     handleIncomeForms(forms: Array<IncomeAddFormInterface>) {
+      this.storage.setElement('income', {})
       console.log(forms);
     }
   }
@@ -111,7 +112,6 @@ export default defineComponent({
 
 .main {
   box-sizing: border-box;
-  display: flex;
   width: calc(100vw - 40px);
   height: calc(100vh - 90px);
   margin: 20px;

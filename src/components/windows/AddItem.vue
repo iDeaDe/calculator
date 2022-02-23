@@ -1,11 +1,11 @@
 <template>
   <div class="container" tabindex="-1">
     <section>
-      <form class="add-income__form" v-on:submit.prevent="submitIncome">
+      <form class="add-income__form" @submit.prevent="submitIncome">
         <div class="income-item" v-for="(item, i) in incomeItems" :key="i">
           <label class="income-item__field">
             <span>Позиция:</span>
-            <select class="input" v-model="incomeItems[i].positionId" required>
+            <select class="input" v-model="item.positionId" required>
               <option value="" disabled selected hidden>Выберите позицию</option>
               <option v-for="position of positions" :key="position.id" :value="position.id">
                 {{ position.name }} ({{ position.cost }} за {{ position.unit }})
@@ -14,13 +14,14 @@
           </label>
           <label class="income-item__field">
             <span>Кол-во:</span>
-            <input type="text" class="input" v-model.number="incomeItems[i].count">
+            <input type="text" class="input" v-model.number="item.count">
           </label>
           <label class="income-item__field">
             <span>Дата:</span>
             <Datepicker dark format="dd.MM.yyyy"
-                :model-value="incomeItems[i].date"
+                :model-value="item.date"
                 :start-date="(new Date())"
+                :clearable="false"
                 :hide-input-icon="true"
                 :enable-time-picker="false"
                 :month-change-on-scroll="false"
@@ -34,11 +35,11 @@
     </section>
     <footer>
       <div class="group">
-        <button class="button" v-on:click="additionalItem">Ещё +</button>
-        <button class="button">Сохранить</button>
+        <button class="button" @click="additionalItem">Ещё +</button>
+        <button class="button" @click="submitIncome">Сохранить</button>
       </div>
       <div class="group">
-        <button class="button" v-on:click="$emit('close')">Закрыть</button>
+        <button class="button" @click="$emit('close')">Закрыть</button>
       </div>
     </footer>
   </div>
@@ -78,8 +79,9 @@ export default defineComponent({
       this.incomeItems.push(this.getIncomeForm());
     },
     submitIncome() {
-      this.$emit('add-income', this.incomeItems);
+      this.$emit('add-income', JSON.parse(JSON.stringify(this.incomeItems)));
       this.incomeItems.splice(0, this.incomeItems.length);
+      this.additionalItem();
     }
   }
 });
