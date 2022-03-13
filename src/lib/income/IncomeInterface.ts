@@ -1,9 +1,16 @@
 
-interface IncomeInterface {
-    count: number,
-    sum: number,
-    date: string,
-    child?: IncomeInterface
+enum IncomeStatus {
+    Active,
+    Inactive,
+    Deleted
 }
 
-export { IncomeInterface };
+interface IncomeInterface {
+    id: number,
+    count: number,
+    positionId: number,
+    date: string
+    status: IncomeStatus
+}
+
+export { IncomeInterface, IncomeStatus };

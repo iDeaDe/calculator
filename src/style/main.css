@@ -24,5 +24,10 @@ body {
     color: ghostwhite;
     background-color: var(--mainBackground);
     user-select: none;
-    overflow-x: hidden;
+    box-sizing: border-box;
+}
+
+#app {
+    height: 100vh;
+    max-height: 100vh;
 }

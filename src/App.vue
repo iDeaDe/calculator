@@ -1,21 +1,18 @@
 <template>
-  <div class="modal-container" v-if="currentModal !== ''" v-on:keydown.esc="triggerModal()"
-       v-on:click.self="triggerModal()">
+  <div class="modal-container" v-if="currentModal !== ''" @keydown.esc="triggerModal()"
+       @click.self="triggerModal()">
     <Positions class="modal"
-               v-on:add-position="addPosition"
-               v-on:remove-position="removePosition"
-               v-bind:positions="positionStore.data"
-               v-bind:class="currentModal === 'positions' ? '' : 'hidden'"
-               v-on:close="triggerModal"/>
-
-    <AddItem class="modal"
-             v-bind:positions="positionStore.data"
-             v-bind:class="currentModal === 'addItem' ? '' : 'hidden'"
-             v-on:add-income="handleIncomeForms"
-             v-on:close="triggerModal"/>
+               :positions="positionStore.data"
+               :class="currentModal === 'positions' ? '' : 'hidden'"
+               @add-position="addPosition"
+               @remove-position="removePosition"
+               @close="triggerModal" />
   </div>
-  <Header class="header" v-on:call-window="triggerModal"/>
-  <Main class="main" v-on:call-window="triggerModal"/>
+  <Header class="header" @call-window="triggerModal"/>
+  <div class="main">
+    <Main :income="incomeStore.data"/>
+    <AddItemForm ref="addItemForm" @add-income="handleIncomeForm" :positions="positionStore.data" />
+  </div>
 </template>
 
 <script lang="ts">
@@ -28,13 +25,15 @@ import Positions from './components/windows/Positions.vue';
 import { PositionInterface } from './lib/positions/PositionInterface';
 import { PositionAddFormInterface } from './lib/positions/PositionAddFormInterface';
 import { PositionStore } from './lib/positions/PositionStore';
-import AddItem from './components/windows/AddItem.vue';
 import { IncomeAddFormInterface } from './lib/income/IncomeAddFormInterface';
+import { IncomeStore } from './lib/income/IncomeStore';
+import { IncomeInterface, IncomeStatus } from './lib/income/IncomeInterface';
+import AddItemForm from './components/elements/AddItemForm.vue';
 
 export default defineComponent({
   name: 'App',
   components: {
-    AddItem,
+    AddItemForm,
     Positions,
     Header,
     Main,
@@ -46,8 +45,11 @@ export default defineComponent({
       'addItem'
     ] as Array<string>,
     storage: {} as StorageInterface,
+
+    incomeStore: {} as IncomeStore,
     positionStore: {} as PositionStore,
-    positions: [] as Array<PositionInterface>,
+
+    latestIncomeId: 0,
     latestPositionId: 0
   }),
   created() {
@@ -59,8 +61,16 @@ export default defineComponent({
       elements: []
     };
 
+    const incomeData = this.storage.getElement('income') as StorageData || {
+      latestId: 0,
+      elements: []
+    };
+
+    this.latestIncomeId = incomeData.latestId as number;
     this.latestPositionId = positionsData.latestId as number;
+
     this.positionStore = new PositionStore(positionsData.elements as Array<PositionInterface>);
+    this.incomeStore = new IncomeStore(incomeData.elements as Array<IncomeInterface>, this.positionStore as PositionStore);
   },
   methods: {
     triggerModal(name?: string) {
@@ -86,7 +96,7 @@ export default defineComponent({
 
       this.storage.setElement('positions', {
         latestId: this.latestPositionId,
-        elements: this.positionStore.data
+        elements: this.positionStore.fullData
       });
       this.storage.saveData();
     },
@@ -95,13 +105,22 @@ export default defineComponent({
 
       this.storage.setElement('positions', {
         latestId: this.latestPositionId,
-        elements: this.positionStore.data
+        elements: this.positionStore.fullData
       });
       this.storage.saveData();
     },
-    handleIncomeForms(forms: Array<IncomeAddFormInterface>) {
-      this.storage.setElement('income', {})
-      console.log(forms);
+    handleIncomeForm(form: IncomeAddFormInterface) {
+      ++this.latestIncomeId;
+      this.incomeStore.add(this.latestIncomeId, form);
+
+      // @ts-ignore
+      this.$refs.addItemForm.reinitForm();
+
+      this.storage.setElement('income', {
+        latestId: this.latestIncomeId,
+        elements: this.incomeStore.fullData
+      });
+      this.storage.saveData();
     }
   }
 });
@@ -115,11 +134,13 @@ export default defineComponent({
   width: calc(100vw - 40px);
   height: calc(100vh - 90px);
   margin: 20px;
-  border-radius: 4px;
+  display: grid;
+  grid-template-columns: 70% 30%;
+  gap: 10px;
 }
 
 .header {
-  width: calc(100vw - 20px);
+  width: 100vw;
   height: 50px;
   padding: 0 10px;
 }

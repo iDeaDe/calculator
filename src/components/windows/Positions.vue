@@ -19,18 +19,18 @@
         </tr>
         </thead>
         <tbody v-memo="positions">
-        <tr v-for="position of positions" v-bind:key="position.id">
+        <tr v-for="position of positions" :key="position.id">
           <td>{{ position.name }}</td>
           <td class="cell-centered">{{ position.cost }}</td>
           <td class="cell-centered">{{ position.unit }}</td>
-          <td class="cell-centered"><button class="button" v-on:click="$emit('remove-position', position.id)">-</button></td>
+          <td class="cell-centered"><button class="button" @click="$emit('remove-position', position.id)">-</button></td>
         </tr>
         </tbody>
       </table>
     </section>
     <footer>
-      <button class="button" v-on:click="openAddBlock = !openAddBlock" v-text="openAddBlock ? 'Отмена' : 'Добавить'"></button>
-      <button class="button" v-on:click="$emit('close')">Закрыть</button>
+      <button class="button" @click="openAddBlock = !openAddBlock" v-text="openAddBlock ? 'Отмена' : 'Добавить'"></button>
+      <button class="button" @click="$emit('close')">Закрыть</button>
     </footer>
   </div>
 </template>
@@ -74,7 +74,7 @@ footer {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  width: calc(100% - 20px);
+  width: 100%;
   height: 50px;
   padding: 0 10px;
   border-top: 2px solid #207583;

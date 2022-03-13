@@ -1,8 +1,15 @@
+enum PositionStatus {
+    Active,
+    Inactive,
+    Deleted
+}
+
 interface PositionInterface {
     id: number,
     name: string,
     cost: number,
-    unit: string
+    unit: string,
+    status: PositionStatus
 }
 
-export { PositionInterface };
+export { PositionInterface, PositionStatus };

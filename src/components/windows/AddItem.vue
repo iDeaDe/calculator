@@ -97,6 +97,7 @@ export default defineComponent({
 
 section {
   height: calc(100% - 52px);
+  overflow-y: auto;
 }
 
 footer {
@@ -118,14 +119,11 @@ footer button {
 }
 
 .income-item {
-  margin: 10px;
+  padding: 10px;
   width: calc(100% - 20px);
   display: grid;
   grid-template-columns: 3fr 3fr 3fr;
   gap: 4px;
-}
-
-.income-item__field {
 }
 
 .income-item__field span {
